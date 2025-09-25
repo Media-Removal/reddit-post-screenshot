@@ -1,0 +1,12 @@
+{
+  "name": "reddit-post-screenshot",
+  "version": "1.0.0",
+  "description": "Simple Puppeteer script for Reddit post screenshots",
+  "main": "screenshot.js",
+  "scripts": {
+    "start": "node screenshot.js"
+  },
+  "dependencies": {
+    "puppeteer": "^21.3.0"
+  }
+}
