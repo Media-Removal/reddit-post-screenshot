@@ -1,44 +1,12 @@
-const puppeteer = require('puppeteer');
-const fs = require('fs');
-
-(async () => {
-  try {
-    // Launch Puppeteer in headless mode
-    const browser = await puppeteer.launch({
-      args: ['--no-sandbox', '--disable-setuid-sandbox'],
-      headless: true,
-    });
-    const page = await browser.newPage();
-
-    // Set viewport for desktop view
-    await page.setViewport({ width: 1280, height: 1200 });
-
-    // URL from environment variable (you can set in Render's dashboard)
-    const url = process.env.REDDIT_POST_URL;
-    if (!url) {
-      throw new Error("Please set the environment variable REDDIT_POST_URL");
-    }
-
-    // Go to the Reddit post
-    await page.goto(url, { waitUntil: 'networkidle2' });
-
-    // Wait for the main post element to load
-    await page.waitForSelector('shreddit-post', { timeout: 15000 });
-
-    // Get the element handle of the main post
-    const postElement = await page.$('shreddit-post');
-
-    // Take a screenshot of just the main post
-    const screenshotBuffer = await postElement.screenshot({ type: 'png' });
-
-    // Save locally (optional) and return path
-    const filePath = 'reddit_post.png';
-    fs.writeFileSync(filePath, screenshotBuffer);
-    console.log(`Screenshot saved: ${filePath}`);
-
-    await browser.close();
-  } catch (err) {
-    console.error("Error capturing Reddit post:", err);
-    process.exit(1);
+{
+  "name": "reddit-post-screenshot",
+  "version": "1.0.0",
+  "description": "Simple Puppeteer script for Reddit post screenshots",
+  "main": "screenshot.js",
+  "scripts": {
+    "start": "node screenshot.js"
+  },
+  "dependencies": {
+    "puppeteer": "^21.3.0"
   }
-})();
+}
